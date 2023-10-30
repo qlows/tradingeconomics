@@ -25,3 +25,9 @@ Open a browser and navigate to http://localhost:8080
 Fetch data from the Trading Economics API.
 Visualize interest rate trends using a line chart.
 Display detailed interest rate data in a table format.
+
+#
+
+### Demonstration
+![](https://github.com/qlows/tradingeconomics/blob/master/Resources/demonstration.gif)
+
