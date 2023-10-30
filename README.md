@@ -5,26 +5,38 @@ This project fetches and visualizes interest rate data from the Trading Economic
 
 #
 
-### Clone the Repository:
+**Clone the Repository:**
+
 git clone https://github.com/qlows/tradingeconomics
+
 cd [REPOSITORY NAME]
 
-### Install Dependencies:
+
+**Install Dependencies:**
+
 npm install
 
-### Start the Server:
+
+**Start the Server:**
+
 nodemon server.js
+
+
 http-server
 
-### View the Dashboard:
+**View the Dashboard:**
+
 Open a browser and navigate to http://localhost:8080
 
 #
 
-### Features
-Fetch data from the Trading Economics API.
-Visualize interest rate trends using a line chart.
-Display detailed interest rate data in a table format.
+**Features:**
+
+* Fetch data from the Trading Economics API.
+
+* Visualize interest rate trends using a line chart.
+
+* Display detailed interest rate data in a table format.
 
 #
 
