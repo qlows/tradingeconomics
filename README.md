@@ -1,39 +1,27 @@
 
-### Introduction
+# Introduction
 
-The Trading Economics API provides you with direct access to 300.000 economic indicators, exchange rates, stock market indexes, government bond yields and commodity prices. Providing several request methods to query our databases, with samples available in different programming languages, it is the best way to export data in XML, CSV or JSON format. The API can be used to feed a custom developed application, a public website or just off-the-shelf software like Microsoft Excel.
-
-#
-
-**Documentation**
-
-https://docs.tradingeconomics.com/
+This project fetches and visualizes interest rate data from the Trading Economics API for Mexico and Sweden.
 
 #
 
-**GitHub Examples**
+### Clone the Repository:
+git clone https://github.com/qlows/tradingeconomics
+cd [REPOSITORY NAME]
 
-https://github.com/tradingeconomics/tradingeconomics
+### Install Dependencies:
+npm install
 
-#
+### Start the Server:
+nodemon server.js
+http-server
 
-**Python Jupyter Notebooks**
-
-https://github.com/tradingeconomics/notebooks
-
-#
-
-**Docker**
-
-https://hub.docker.com/u/tradingeconomics
+### View the Dashboard:
+Open a browser and navigate to http://localhost:8080
 
 #
 
-**Learn More**
-
-https://tradingeconomics.com/api/
-
-
-
-
-
+### Features
+Fetch data from the Trading Economics API.
+Visualize interest rate trends using a line chart.
+Display detailed interest rate data in a table format.
