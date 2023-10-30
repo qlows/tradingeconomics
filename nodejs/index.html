@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta author="Umit Kilinc | https://github.com/qlows">
+    <title>Trading Economics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        table {
+            width: 70%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Compare Interest Rates</h1>
+
+    <canvas id="myChart"></canvas>
+
+    <table id="interestRates">
+        <thead>
+            <tr>
+                <th colspan="2">Mexico</th>
+                <th colspan="2">Sweden</th>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <th>Interest Rates</th>
+                <th>Date</th>
+                <th>Interest Rates</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated here -->
+        </tbody>
+    </table>
+
+
+    <script>
+function fetchData() {
+    fetch('http://localhost:3000/api/data')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            // Filter out invalid data points
+            const validMexicoData = data.mexico.filter(point => point.Country && point.Country.length < 50);
+            const validSwedenData = data.sweden.filter(point => point.Country && point.Country.length < 50);
+
+            // Populate chart with data
+            populateChart({
+                mexico: validMexicoData,
+                sweden: validSwedenData
+            });
+
+            // Populate table with the latest interest rate for both countries
+            populateTable({
+                mexico: validMexicoData,
+                sweden: validSwedenData
+            });
+        });
+}
+
+
+function populateChart(data) {
+    // Filter out undefined interest rates for Mexico and their corresponding dates
+    const mexicoFiltered = data.mexico.filter(point => point.Value !== undefined);
+    const mexicoLabels = mexicoFiltered.map(point => point.DateTime);
+    const mexicoData = mexicoFiltered.map(point => point.Value);
+
+    // Filter out undefined interest rates for Sweden and their corresponding dates
+    const swedenFiltered = data.sweden.filter(point => point.Value !== undefined);
+    const swedenLabels = swedenFiltered.map(point => point.DateTime);
+    const swedenData = swedenFiltered.map(point => point.Value);
+
+    console.log("Mexico Labels:", mexicoLabels);
+    console.log("Mexico Data:", mexicoData);
+    console.log("Sweden Labels:", swedenLabels);
+    console.log("Sweden Data:", swedenData);
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: mexicoLabels, // or swedenLabels, they should be roughly the same after filtering
+            datasets: [{
+                label: 'Mexico',
+                data: mexicoData,
+                borderColor: 'blue',
+                fill: false
+            },
+            {
+                label: 'Sweden',
+                data: swedenData,
+                borderColor: 'red',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+
+function populateTable(data) {
+    const tableBody = document.getElementById('interestRates').getElementsByTagName('tbody')[0];
+
+    // Clear previous data
+    tableBody.innerHTML = "";
+
+    const maxLength = Math.max(data.mexico.length, data.sweden.length);
+
+    for (let i = 0; i < maxLength; i++) {
+        const row = tableBody.insertRow();
+
+        // Populate for Mexico
+        if (data.mexico[i]) {
+            row.insertCell(0).innerHTML = data.mexico[i].DateTime.split('T')[0]; // Display only the date part
+            row.insertCell(1).innerHTML = data.mexico[i].Value;
+        } else {
+            row.insertCell(0).innerHTML = "-";
+            row.insertCell(1).innerHTML = "-";
+        }
+
+        // Populate for Sweden
+        if (data.sweden[i]) {
+            row.insertCell(2).innerHTML = data.sweden[i].DateTime.split('T')[0]; // Display only the date part
+            row.insertCell(3).innerHTML = data.sweden[i].Value;
+        } else {
+            row.insertCell(2).innerHTML = "-";
+            row.insertCell(3).innerHTML = "-";
+        }
+    }
+}
+
+
+window.onload = fetchData;
+
+    </script>
+</body>
+
+</html>
